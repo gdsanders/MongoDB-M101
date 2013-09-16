@@ -1,6 +1,6 @@
 import pymongo
 
-from pymongo install MongoCLient
+from pymongo import MongoClient
 
 # connect to database
 
