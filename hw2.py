@@ -1,16 +1,39 @@
 import pymongo
+import sys
 
-from pymongo import MongoClient
+# establish connection to database
 
-# connect to database
+connection = pymongo.MongoClient("mongodb://localhost", safe=True)
 
-connection = MongoClient('localhost', 27017)
+# get a handle on school database
 
-db = connection.test
+db=connection.students
+scores = db.scores
 
-# handle to grades collection
-#grades = db.grades
+def find():
 
-cur = db.grades.find()
+	print "find, lowest homework by student"
 
-cur.next()
+	# Hint/spoiler: If you select homework grade-documents
+	# sort by student and then by score, you can iterate through 
+	# and find the lowest score for each student by noticing a change in student id. 
+	# As you notice that change of student_id, remove the document.
+
+	query = {'type': 'homework'}
+
+	try:
+		cursor = scores.find(query)
+		cursor = scores.sort([('student_id', pymongo.ASCENDING), ('score', pymongo.DESCENDING)])
+
+	except:
+
+		print "Unexpected error", sys.exc_info()[0]
+
+	sanity = 0
+	for doc in cursor:
+		print doc
+		sanity += 1
+		if (sanity > 10):
+			break
+
+find()
