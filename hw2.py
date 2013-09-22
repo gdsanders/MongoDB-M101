@@ -8,7 +8,7 @@ connection = pymongo.MongoClient("mongodb://localhost", safe=True)
 # get a handle on school database
 
 db=connection.students
-scores = db.scores
+grades = db.grades
 
 def find():
 
@@ -22,9 +22,8 @@ def find():
 	query = {'type': 'homework'}
 
 	try:
-		cursor = scores.find(query)
-		cursor = scores.sort([('student_id', pymongo.ASCENDING), ('score', pymongo.DESCENDING)])
-
+		cursor = grades.find(query)
+		cursor = cursor.sort([('student_id', pymongo.ASCENDING), ('score', pymongo.ASCENDING)])
 	except:
 
 		print "Unexpected error", sys.exc_info()[0]
